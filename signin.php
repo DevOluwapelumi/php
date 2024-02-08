@@ -1,3 +1,21 @@
+<?php
+require 'database_con.php';
+// session_start();
+print_r($_POST);
+
+if(isset($_POST['submit'])){
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $query="SELECT * FROM students WHERE email = '$email'";
+    $connect=$database_con->query($query);
+
+    if($connect->num_rows>0){
+        echo 'Email exist';
+    } else {
+        echo 'Email does not exist';
+    }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +31,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 50px;
         }
         .container {
             width: 400px;
@@ -77,7 +95,7 @@
 <body>
 
 <div class="container border shadow-lg">
-    <h2 class="text-center">Student Signup Form</h2><hr>
+    <h2 class="text-center">Student Signin Form</h2><hr>
     <div class="message-container">
     <?php
     session_start();
@@ -88,26 +106,14 @@
     ?>
 </div>
 
-    <form action="signupprocess.php" method="post">
-        <label for="first">First Name:</label>
-        <input type="text" class="form-control" id="first" name="firstname" >
-
-        <label for="last">Last Name:</label>
-        <input type="text" class="form-control" id="last" name="lastname" >
-
+    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" name="email" >
 
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" >
+        <input type="password" class="form-control" id="password" name="password" > <hr>
 
-        <label for="age">Age:</label>
-        <input type="number" class="form-control" id="age" name="age" >
-
-        <label for="address">Address:</label>
-        <input type="address" class="form-control" id="address" name="address" > <hr>
-
-        <button type="submit" name="submit">Signup</button>
+        <button type="submit" class="btn btn-dark" name="submit">Signin</button>
     </form>
 </div>
 
