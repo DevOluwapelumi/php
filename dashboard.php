@@ -1,50 +1,20 @@
-<?php
-require 'database_con.php';
-// session_start();
-print_r($_POST);
-
-if(isset($_POST['submit'])){
-    $email=$_POST['email'];
-    $password=$_POST['password'];
-    $query="SELECT * FROM students WHERE email = '$email'";
-    $connect=$database_con->query($query);
-
-    if($connect->num_rows>0){
-        $user = $connect->fetch_assoc();
-        if($password === $user['password']){
-            echo 'Login successful';
-            header('Location: dashboard.php');
-            // Here you can set session variables or redirect the user as needed
-        } else {
-            echo 'Incorrect password';
-        }
-    } else {
-        echo 'Email does not exist';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-    crossorigin="anonymous"
-/>
-    <title>Student Signup Form</title>
+    <title>Document</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 50px;
+            margin: 20px;
         }
         .container {
             width: 400px;
             padding: 20px;
             border: 1px solid #cccccc;
             border-radius: 15px;
+            text-align:center
         }
         input[type=text], input[type=email], input[type=password] {
             width: 100%;
@@ -97,12 +67,10 @@ if(isset($_POST['submit'])){
         }
 
     </style>
-    
 </head>
 <body>
-
-<div class="container border shadow-lg">
-    <h2 class="text-center">Student Signin Form</h2><hr>
+    <div class="container border shadow-lg">
+    <h2 class="text-center">Welcome to Dashboard</h2><hr>
     <div class="message-container">
     <?php
     session_start();
@@ -112,17 +80,6 @@ if(isset($_POST['submit'])){
     session_unset();
     ?>
 </div>
-
-    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="email" >
-
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" > <hr>
-
-        <button type="submit" class="btn btn-dark" name="submit">Signin</button>
-    </form>
 </div>
-
 </body>
 </html>
