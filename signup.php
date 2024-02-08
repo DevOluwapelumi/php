@@ -11,10 +11,18 @@ if(isset($_POST['submit'])){
     $age=$_POST['age'];
     $address=$_POST['address'];
 
+    $query="SELECT * FROM students WHERE email='$email'";
+    $connection=$database_con->query($query);
+
+    if($connection->num_rows>0){
+        $user=$connection->fetch_assoc();
+    } else{
     $hashedpassword= password_hash($password, PASSWORD_DEFAULT);
     echo $hashedpassword;
     $runquery="INSERT INTO students(`firstname`, `lastname`, `email`, `password`, `age`, `address`) VALUES('$firstname', '$lastname', '$email', '$hashedpassword', '$age', '$address')";
     $querycon=$database_con->query($runquery);
+    }
+
     if($querycon){
         echo $querycon;
     } else {
