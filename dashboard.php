@@ -8,11 +8,14 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f0f0f0;
+            padding: 20px;
         }
         .container {
             width: 400px;
             padding: 20px;
             border: 1px solid #cccccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border-radius: 15px;
             text-align:center
         }
@@ -65,10 +68,29 @@
         .session-message {
             animation: fadeIn 0.5s ease-in-out;
         }
+        h2.text-center {
+        color: #333;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        }
+        .message-container {
+            margin: 20px 0;
+        }
+        .session-message {
+            color: #dc3545; /* Bootstrap 'danger' color */
+            font-weight: bold;
+        }
+        marquee {
+            border: none;
+        }
 
     </style>
 </head>
 <body>
+    <marquee behavior="alternate" direction="left">
     <div class="container border shadow-lg">
     <h2 class="text-center">Welcome to Dashboard</h2><hr>
     <div class="message-container">
@@ -79,6 +101,7 @@
     }
     session_unset();
     ?>
+    </marquee>
 </div>
 </div>
 </body>

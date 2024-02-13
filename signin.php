@@ -14,7 +14,6 @@ if(isset($_POST['submit'])){
         if($password === $user['password']){
             echo 'Login successful';
             header('Location: dashboard.php');
-            // Here you can set session variables or redirect the user as needed
         } else {
             echo 'Incorrect password';
         }
