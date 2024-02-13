@@ -1,6 +1,8 @@
 <?php
 require 'database_con.php';
 // session_start();
+$welcomeMessage = ''; // Initialize the variable
+$errorMessage = '';
 print_r($_POST);
 
 if(isset($_POST['submit'])){
@@ -11,14 +13,21 @@ if(isset($_POST['submit'])){
 
     if($connect->num_rows>0){
         $user = $connect->fetch_assoc();
+        $userid=$user['id'];
+        echo $userid;
+
         if($password === $user['password']){
             echo 'Login successful';
+            $welcomeMessage = 'Welcome, ' . htmlspecialchars($user['firstname']);
+            $_SESSION['id'] = $userid;
             header('Location: dashboard.php');
         } else {
-            echo 'Incorrect password';
+            echo  'Incorrect password';
+            $errorMessage = 'Incorrect password';
         }
     } else {
         echo 'Email does not exist';
+        $errorMessage = 'Email does not exist';
     }
 }
 ?>
@@ -102,6 +111,13 @@ if(isset($_POST['submit'])){
 
 <div class="container border shadow-lg">
     <h2 class="text-center">Student Signin Form</h2><hr>
+    <?php if($welcomeMessage): ?>
+    <p class="text-center" style="color: green; font-size: 16px;"><?php echo $welcomeMessage; ?></p>
+<?php endif; ?>
+<?php if($errorMessage): ?>
+    <p class="text-center" style="color: red; font-size: 16px;"><?php echo $errorMessage; ?></p>
+<?php endif; ?>
+
     <div class="message-container">
     <?php
     session_start();

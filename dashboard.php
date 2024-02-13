@@ -1,3 +1,12 @@
+<?php
+session_start();
+require 'database_con.php';
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,7 +104,6 @@
     <h2 class="text-center">Welcome to Dashboard</h2><hr>
     <div class="message-container">
     <?php
-    session_start();
     if (isset($_SESSION['message'])) {
         echo '<div class="session-message text-center text-danger">' . $_SESSION['message'] . '</div>';
     }
