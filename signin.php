@@ -15,6 +15,8 @@ if(isset($_POST['submit'])){
         $user = $connect->fetch_assoc();
         $userid=$user['id'];
         echo $userid;
+        
+
 
         if($password === $user['password']){
             echo 'Login successful';

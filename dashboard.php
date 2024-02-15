@@ -1,11 +1,16 @@
 <?php
 session_start();
 require 'database_con.php';
+
+if(isset($_SESSION['id'])){ // Use the correct session key
+    $userid = $_SESSION['id'];
+    echo $userid;
+    $query = "SELECT * FROM students WHERE id= '$userid'";
+    $con = $database_con->query($query);
+    
+}
 ?>
-
-
-
-
+     
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,22 +100,35 @@ require 'database_con.php';
         marquee {
             border: none;
         }
+        .form-control-file {
+            margin-top: 0.5rem;
+        }
 
     </style>
 </head>
 <body>
+    
     <marquee behavior="alternate" direction="left">
-    <div class="container border shadow-lg">
-    <h2 class="text-center">Welcome to Dashboard</h2><hr>
-    <div class="message-container">
-    <?php
+        <div class="container border shadow-lg">
+            <h2 class="text-center">Welcome to Dashboard</h2><hr>
+            <div class="message-container">
+                <?php
     if (isset($_SESSION['message'])) {
         echo '<div class="session-message text-center text-danger">' . $_SESSION['message'] . '</div>';
     }
     session_unset();
     ?>
-    </marquee>
-</div>
-</div>
+</marquee> <hr>
+
+    <div class="container mt-5">
+    <h2>Upload Profile Picture</h2>
+    <form action="process.php" method="post" enctype="multipart/form-data">
+        <div class="custom-file mb-3">
+            <label class="custom-file-label" for="customFile">Choose file</label> 
+        <input type="file" name="image" class="custom-file-input" id="customFile" required>
+        </div>
+        <button type="submit" name="submit" value="Upload Profile pic" class="btn btn-primary">Upload</button>
+    </form>
+    </div>
 </body>
 </html>
