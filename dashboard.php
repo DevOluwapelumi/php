@@ -1,6 +1,6 @@
 <?php
-session_start();
 require 'database_con.php';
+session_start();
 
 if(isset($_SESSION['id'])){ // Use the correct session key
     $userid = $_SESSION['id'];

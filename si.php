@@ -1,39 +1,50 @@
 <?php
+session_start();
 require 'database_con.php';
-// session_start();
+
 $welcomeMessage = ''; // Initialize the variable
 $errorMessage = '';
-print_r($_POST);
 
 if(isset($_POST['submit'])){
     $email=$_POST['email'];
     $password=$_POST['password'];
-    $query="SELECT * FROM students WHERE email = '$email'";
-    $connect=$database_con->query($query);
+    // print_r($_POST);
+    $query="SELECT * FROM students WHERE email=?";  
+    $prepare=$database_con->prepare($query);
+    $prepare->bind_param('s', $email);
+    $execute=$prepare->execute();
+    if($execute){
+        echo 'Yes';
+        $result=$prepare->get_result();
+        // print_r($result);
+        if($result->num_rows>0){
+            $user=$result->fetch_assoc();
+            // print_r($user);
+            $hashedpass=$user['password'];
+            // echo $hashedpass;
+            $passwordver=password_verify($password, $hashedpass);
+            if($passwordver){
+                echo 'User found';
+                $welcomeMessage = 'Welcome, ' . htmlspecialchars($user['firstname']);
+            } else {
+                echo  'Incorrect password';
+                 $errorMessage = 'Incorrect password';
+            }
 
-    if($connect->num_rows>0){
-        $user = $connect->fetch_assoc();
-        $userid=$user['id'];
-        echo $userid;
-        
-
-
-        if($password === $user['password']){
-            echo 'Login successful';
-            $welcomeMessage = 'Welcome, ' . htmlspecialchars($user['firstname']);
-           // $_SESSION['id'] = $userid;
-            $_SESSION['userid'] = $userid;
-            header('Location: dashboard.php');
         } else {
-            echo  'Incorrect password';
-            $errorMessage = 'Incorrect password';
+            echo 'Email does not exist';
+            $errorMessage = 'Email does not exist';
         }
     } else {
-        echo 'Email does not exist';
-        $errorMessage = 'Email does not exist';
+        echo "not executed";
     }
 }
+
 ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,14 +134,11 @@ if(isset($_POST['submit'])){
 
     <div class="message-container">
     <?php
-    session_start();
     if (isset($_SESSION['message'])) {
         echo '<div class="session-message text-center text-danger">' . $_SESSION['message'] . '</div>';
     }
     session_unset();
     ?>
-</div>
-
     <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" name="email" >
